@@ -1,0 +1,48 @@
+# Basic
+title: Pea-Shooter
+subtitle: Coding Coding Coding ...
+description: Welcome to Pea-Shooter's blog.
+creator: <a href="http://onev.cat">@onevcat</a>
+
+url: "http://vno.onevcat.com"
+
+permalink: /:year/:month/:title/
+
+# Format
+highlighter: rouge
+
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: blue
+
+# The blog button should not be removed.
+blog_button:
+    title: Blog
+    description: Visit blog
+
+# Navigation buttons in the front page.
+nav:
+    - {title: Projects, description: My Projects, url: 'http://project.onevcat.com'}
+    # - {title: Another Button, description: A button, url: 'http://example.com'}
+
+# Pagination
+gems: [jekyll-paginate]
+paginate: 10
+paginate_path: "page/:num/"
+
+# Comment
+comment:
+    disqus: vno-jekyll
+    # duoshuo: 
+    
+# Social
+social:
+    weibo: u/5362535035
+    github: Pea-Shooter
+    twitter: pangwandou
+    gplus: 107108267983477358170
+    mail: liuzhencui@foxmail.com
+
+# Google Analytics
+ga:
+    # id: your_ga_id
+    # host: your_host
