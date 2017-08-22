@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Linux进程管理详解</title>
+  <meta name="description" content="Linux进程管理详解">
+  <meta name="author" content="Wei Wang">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Linux进程管理详解">
+  <meta name="twitter:description" content="Linux进程管理详解">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Linux进程管理详解">
+  <meta property="og:description" content="Linux进程管理详解">
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.png" />
+  <link href="/assets/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/08/Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/">
+  <link rel="alternate" type="application/rss+xml" title="Pea-Shooter" href="http://localhost:4000/feed.xml">
+  
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 Pea-Shooter 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="Pea-Shooter logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for Pea-Shooter" class="blog-button">Pea-Shooter</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Coding Coding Coding ...</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">Welcome to Pea-Shooter's blog.</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="Visit blog" class="blog-button">Blog</a></li>
+                
+                  <li class="navigation__item"><a href="https://github.com/Pea-Shooter" target="_blank" title="My Projects">Projects</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+    <a href="http://weibo.com/u/5362535035" title="@u/5362535035 的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/Pea-Shooter" title="@Pea-Shooter 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+  <!-- Twitter -->
+  <li class="navigation__item">
+    <a href="http://twitter.com/pangwandou" title="@pangwandou" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Google Plus -->
+  <li class="navigation__item">
+    <a href="https://plus.google.com/107108267983477358170" rel="author" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google Plus</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+  <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+  
+  <!-- Email -->
+  <li class="navigation__item">
+    <a href="mailto:liuzhencui@foxmail.com" title="Contact me">
+      <i class='social fa fa-envelope'></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-blue"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-08-15 11:27:30 +0900" itemprop="datePublished" class="post-meta__date date">2017-08-15</time> &#8226; <span class="post-meta__tags tags">Linux进程</span>
+    </div>
+    <h1 class="post-title">Linux进程管理详解</h1>
+  </header>
+
+  <section class="post">
+    <h1 id="linux进程管理详解">Linux进程管理详解</h1>
+
+<p>[TOC]</p>
+
+<h2 id="1综述">1.综述</h2>
+
+<p>​	何谓进程？进程，就是正在执行的一个程序或命令，每一个进程都是一个运行实体，有自己的地址空间，并占用一定的系统资源。简而言之，进程就是运行中的程序。在Linux中，诸如ls等命令都是进程，只不过某些命令进程在运行完后立即关闭了。而像apache等常驻内存服务也会产生进程，例如，一个用户访问一个apache下的站点，必定会产生一个进程。Linux中有各种各样的进程，尤其是在服务器中，我们需要实时了解系统中所有进程的状态，因此本篇文章将针对进程的管理进行详细地讲解。</p>
+
+<p>​        在具体讲解进程管理前，我们先讨论一下进程管理的作用。总的来说，进程管理具有如下三个作用：</p>
+
+<ul>
+  <li>判断服务器健康状态：这是进程管理中最主要的作用，通过分析进程的状态（内存、CPU占有率等）判断服务器的负载和安全状态;</li>
+  <li>查看系统中的所有进程：这是进程管理的基础，通过查看系统中的所有进程状态才能决定对进程作出什么样的管理;</li>
+  <li>杀死进程：进程管理中的辅助手段，杀死进程只是迫不得已的做法，一般情况下，进程都有正常的退出方法，只有进程不能正常结束时，才使用杀死进程的方法.</li>
+</ul>
+
+<p>​        在了解了进程管理的作用后，我们来看进程查看命令的使用。进程查看命令主要有<code class="highlighter-rouge">ps</code>、<code class="highlighter-rouge">pstree</code>、<code class="highlighter-rouge">top</code>三个命令，下面我们逐一讲解:</p>
+
+<h2 id="2ps命令">2.ps命令</h2>
+
+<h4 id="命令选项">命令选项：</h4>
+
+<ul>
+  <li>－a ：显示一个终端所有的进程</li>
+  <li>－u：显示进程的归属用户和内存占用情况</li>
+  <li>－x：显示没有控制终端的进程</li>
+  <li>－l：长格式显示更详细的信息</li>
+  <li>－e：显示所有进程</li>
+</ul>
+
+<h4 id="命令组合">命令组合：</h4>
+
+<p>总的来说，ps命令具有两种组合格式，一种是<code class="highlighter-rouge">ps aux</code>，一种是<code class="highlighter-rouge">ps -le</code>:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">ps aux</code>：查看系统中的所有进程，使用BSD操作系统格式</li>
+</ul>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/75D57AAB-0C34-49A1-A95E-FB5DD2593E75.png" alt="75D57AAB-0C34-49A1-A95E-FB5DD2593E75" /></p>
+
+<blockquote>
+  <p>注：<code class="highlighter-rouge">ps aux</code>和<code class="highlighter-rouge">ps -aux</code>命令有区别，在ubuntu中<code class="highlighter-rouge">ps -aux</code>不会报错，而在centos中，<code class="highlighter-rouge">ps -aux</code>会提示警告信息。使用<code class="highlighter-rouge">man ps</code>可以查看文档描述，但是在使用过程中不必纠结于二者的区别。</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">ps -le</code>：查看系统中的所有进程，使用Linux标准格式</li>
+</ul>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/20B6CDA5-610D-4F73-96C4-BD0444518951.png" alt="20B6CDA5-610D-4F73-96C4-BD0444518951" /></p>
+
+<h4 id="字段解释">字段解释：</h4>
+
+<p>在实际使用过程中，我们没有必要对ps命令输出的所有进程都认识，应该关注的是每一列输出信息代表的含义是什么。下面以<code class="highlighter-rouge">ps aux</code>为例，讲解对应列的含义：</p>
+
+<ul>
+  <li>USER：产生该进程的用户。</li>
+  <li>PID：进程的ID。</li>
+  <li>％CPU：该进程占用的CPU资源百分比。</li>
+  <li>％MEM：该进程占用物理内存百分比。</li>
+  <li>VSZ：该进程占用虚拟内存的大小，单位KB。</li>
+  <li>RSS：该进程占用的实际物理内存大小，单位KB。</li>
+  <li>TTY：该进程是在哪个终端运行的，其中tty1-tty7代表本地控制终端，tty1-tty6为字符终端，tty7为图形终端。pts／0-255代表虚拟终端。</li>
+  <li>STAT：进程状态。常见状态有：
+    <ul>
+      <li>R：运行</li>
+      <li>S（大写）：睡眠</li>
+      <li>T：停止状态</li>
+      <li>s（小写）：包含子进程</li>
+      <li>＋：后台进程</li>
+    </ul>
+  </li>
+  <li>START：该进程的启动时间。</li>
+  <li>TIME：该进程占用CPU的运算时间。</li>
+  <li>COMMAND：进程名</li>
+</ul>
+
+<blockquote>
+  <p>(注：PID等于1的进程 /sbin/init 是系统的启动进程，是系统中所有进程的父进程)</p>
+</blockquote>
+
+<h2 id="3pstree命令查看进程树">3.pstree命令查看进程树</h2>
+
+<h4 id="命令选项-1">命令选项：</h4>
+
+<ul>
+  <li>-p：显示进程的PID</li>
+  <li>-u：显示进程的所属用户</li>
+</ul>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/B08615C7-6B4F-476A-947C-7A2A9BF087D5.png" alt="B08615C7-6B4F-476A-947C-7A2A9BF087D5" /></p>
+
+<p>直接使用pstree命令，输出的是系统的进程树，其中相同名称的进程使用数字＊进程名的形式输出，使用<code class="highlighter-rouge">pstree -p</code>命令可以将不同PID的进程展开：</p>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/F9B0226B-FD4A-49A6-9584-A0B7B871BBA4.png" alt="F9B0226B-FD4A-49A6-9584-A0B7B871BBA4" /></p>
+
+<h2 id="4top命令产看进程状态">4.top命令产看进程状态</h2>
+
+<h5 id="命令选项-2">命令选项：</h5>
+
+<ul>
+  <li>-d 秒数：指定top命令每隔几秒更新，默认是3秒。</li>
+  <li>-b：使用批处理模式输出，一般和-n合用。</li>
+  <li>-n 次数：指定top命令执行的次数。</li>
+</ul>
+
+<h4 id="top命令交互模式下的命令">top命令交互模式下的命令：</h4>
+
+<ul>
+  <li>？或h：显示交互模式的帮助文档。</li>
+  <li>p：以CPU使用率排序，默认方式。</li>
+  <li>M：以内存使用率排序。　　　</li>
+  <li>N：以PID排序</li>
+  <li>q：退出top命令交互模式</li>
+</ul>
+
+<p>一般的，在终端输入top命令即进入了top交互模式：</p>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/E3D38BB6-F13D-43D5-9EBD-805650205C93.png" alt="E3D38BB6-F13D-43D5-9EBD-805650205C93" /></p>
+
+<p>此时可以键入交互模式下的命令对输出进行不同的排序。</p>
+
+<h4 id="字段解释-1">字段解释：</h4>
+
+<p>在top命令下，我们重点关注最上面五行系统信息：</p>
+
+<ul>
+  <li>11:31:20 ：系统当前时间，默认每3秒更新。</li>
+  <li>up 113days，16:20　:系统已运行113天16个小时20分钟。</li>
+  <li>3 users：当前登录了3个用户。</li>
+  <li>load average：0.00，0.00，0.00 ：系统在之前1分钟，5分钟，15分钟的平均负载，一般认为对于每一个CPU核心，该数值小于1时系统负载较小，大于1时系统负载较大。</li>
+  <li>Tasks：112total ：系统中的进程总数。</li>
+  <li>2 running：正在运行的进程数。</li>
+  <li>110 sleeping：睡眠进程数。</li>
+  <li>0 stopped：正在停止的进程。</li>
+  <li>0 zombie：僵尸进程。</li>
+  <li>Cpu(s):0.3%us ：用户模式占用的cpu百分比。</li>
+  <li>0.3%sy：系统模式占用的cpu百分比。</li>
+  <li>0.0%sy：改变过优先级的用户进程占用百分比。</li>
+  <li>99.3%id：空闲cpu的百分比。</li>
+  <li>0.0%wa：等待输入／输出的进程占用cpu百分比。</li>
+  <li>0.0%hi：硬中断请求服务占用cpu百分比。</li>
+  <li>0.0%si：软中断请求服务占用cpu百分比。</li>
+  <li>0.0%st：虚拟时间百分比。</li>
+  <li>第四行为物理内存的信息，第五行为交换分区的信息，单位为kb，注意buffers是用作缓冲的内存大小，cached是用作缓存的内存大小。</li>
+</ul>
+
+<h2 id="5kill命令终止进程">5.kill命令终止进程</h2>
+
+<p><code class="highlighter-rouge">kill -l</code>（字母l）：查看所有信号</p>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/856E8317-3F5B-4032-BC73-E98951575731.png" alt="856E8317-3F5B-4032-BC73-E98951575731" /></p>
+
+<p>其中，重点关注kill -1（数字1）和kill -9。kill -1用于重启进程（而不是杀死），不影响现有进程的使用，一般在修改某种服务的配置文件之后使用该命令；kill -9用于强制终止进程，基本格式为 kill ［数字］进程PID。</p>
+
+<p><code class="highlighter-rouge">killall</code>命令：基本格式为killall ［选项］［信号］进程名。killall的选项有-i和-I，-i用于交互，询问是否杀死某个进程，-I用于忽略进程名的大小写。</p>
+
+<p><img src="/Users/liuzhen/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1475789252/QQ/Temp.db/90318CF6-D33A-45EE-9412-5CD31357DB94.png" alt="90318CF6-D33A-45EE-9412-5CD31357DB94" /></p>
+
+<p><code class="highlighter-rouge">pkill</code>命令：基本格式为pkill ［选项］［信号］进程名　。选项-t 终端号 用于按照终端号踢出用户。</p>
+
+<p>首先使用w命令查看当前用户，可以见到共有四个远程用户终端，当前正在使用的终端为pts／4，因为其正在使用w命令。接着用pkill命令踢出pts／0，再次用w命令查看，可见此时pts／0用户已被踢出。</p>
+
+<p><img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/BABF0CAB-11A3-4363-969D-69605007223B.png" alt="C5B6DF39-F2BA-401F-9E21-2483FB7AE2B0" /></p>
+
+<h2 id="6优先级修改命令nice">6.优先级修改命令nice</h2>
+
+<p>基本格式为<code class="highlighter-rouge">nice -n 数值 进程名</code>。在前面<code class="highlighter-rouge">ps -le</code>命令中，表示优先级的列有PRI（priority）和NI（nice），真正的优先级由PRI决定，数值越小优先级越高。用户只能修改NI的值，修改后的PRI＝原PRI＋NI。下图为修改apache服务进程的优先级示例。由于优先级对日常使用无很大影响，此处不加赘述，有兴趣的可以自行查阅相关资料。<img src="https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/7C609F1D-2665-4C84-A981-E8183011CA33.png" alt="7C609F1D-2665-4C84-A981-E8183011CA33" /></p>
+
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/02/hello-world-vno/" title="link to Hello World - Vno">Hello World - Vno</a></h2>
+       <p class="excerpt">What’s thisVno Jekyll is a theme for Jekyll. It is a port of my Ghost theme vno, which is originally developed from Dale Anthony’s Uno.Usage$ git clone https://github.com/onevcat/vno-jekyll.git your_site$ cd your_site$ bundler install$ bundler exe...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-02-16 15:32:24 +0900" class="post-list__meta--date date">2016-02-16</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/02/hello-world-vno/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+  
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">由 <a href="https://jekyllrb.com">Jekyll</a> 于 2017-08-15 生成，感谢 <a href="https://www.digitalocean.com/?refcode=30ed2d146762">Digital Ocean</a> 为本站提供稳定的 VPS 服务</span>
+        <span class="footer__copyright">本站由 <a href="https://github.com/Pea-Shooter">@Pea-Shooter</a> 创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2017</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

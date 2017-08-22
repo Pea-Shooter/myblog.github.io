@@ -5,9 +5,191 @@
     <description>Welcome to Pea-Shooter's blog.</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 15 Aug 2017 09:33:33 +0800</pubDate>
-    <lastBuildDate>Tue, 15 Aug 2017 09:33:33 +0800</lastBuildDate>
+    <pubDate>Tue, 15 Aug 2017 22:07:42 +0800</pubDate>
+    <lastBuildDate>Tue, 15 Aug 2017 22:07:42 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
+    
+      <item>
+        <title>Linux进程管理详解</title>
+        <description>&lt;h1 id=&quot;linux进程管理详解&quot;&gt;Linux进程管理详解&lt;/h1&gt;
+
+&lt;p&gt;[TOC]&lt;/p&gt;
+
+&lt;h2 id=&quot;1综述&quot;&gt;1.综述&lt;/h2&gt;
+
+&lt;p&gt;​	何谓进程？进程，就是正在执行的一个程序或命令，每一个进程都是一个运行实体，有自己的地址空间，并占用一定的系统资源。简而言之，进程就是运行中的程序。在Linux中，诸如ls等命令都是进程，只不过某些命令进程在运行完后立即关闭了。而像apache等常驻内存服务也会产生进程，例如，一个用户访问一个apache下的站点，必定会产生一个进程。Linux中有各种各样的进程，尤其是在服务器中，我们需要实时了解系统中所有进程的状态，因此本篇文章将针对进程的管理进行详细地讲解。&lt;/p&gt;
+
+&lt;p&gt;​        在具体讲解进程管理前，我们先讨论一下进程管理的作用。总的来说，进程管理具有如下三个作用：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;判断服务器健康状态：这是进程管理中最主要的作用，通过分析进程的状态（内存、CPU占有率等）判断服务器的负载和安全状态;&lt;/li&gt;
+  &lt;li&gt;查看系统中的所有进程：这是进程管理的基础，通过查看系统中的所有进程状态才能决定对进程作出什么样的管理;&lt;/li&gt;
+  &lt;li&gt;杀死进程：进程管理中的辅助手段，杀死进程只是迫不得已的做法，一般情况下，进程都有正常的退出方法，只有进程不能正常结束时，才使用杀死进程的方法.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;​        在了解了进程管理的作用后，我们来看进程查看命令的使用。进程查看命令主要有&lt;code class=&quot;highlighter-rouge&quot;&gt;ps&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;pstree&lt;/code&gt;、&lt;code class=&quot;highlighter-rouge&quot;&gt;top&lt;/code&gt;三个命令，下面我们逐一讲解:&lt;/p&gt;
+
+&lt;h2 id=&quot;2ps命令&quot;&gt;2.ps命令&lt;/h2&gt;
+
+&lt;h4 id=&quot;命令选项&quot;&gt;命令选项：&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;－a ：显示一个终端所有的进程&lt;/li&gt;
+  &lt;li&gt;－u：显示进程的归属用户和内存占用情况&lt;/li&gt;
+  &lt;li&gt;－x：显示没有控制终端的进程&lt;/li&gt;
+  &lt;li&gt;－l：长格式显示更详细的信息&lt;/li&gt;
+  &lt;li&gt;－e：显示所有进程&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;命令组合&quot;&gt;命令组合：&lt;/h4&gt;
+
+&lt;p&gt;总的来说，ps命令具有两种组合格式，一种是&lt;code class=&quot;highlighter-rouge&quot;&gt;ps aux&lt;/code&gt;，一种是&lt;code class=&quot;highlighter-rouge&quot;&gt;ps -le&lt;/code&gt;:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ps aux&lt;/code&gt;：查看系统中的所有进程，使用BSD操作系统格式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/75D57AAB-0C34-49A1-A95E-FB5DD2593E75.png&quot; alt=&quot;75D57AAB-0C34-49A1-A95E-FB5DD2593E75&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;注：&lt;code class=&quot;highlighter-rouge&quot;&gt;ps aux&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;ps -aux&lt;/code&gt;命令有区别，在ubuntu中&lt;code class=&quot;highlighter-rouge&quot;&gt;ps -aux&lt;/code&gt;不会报错，而在centos中，&lt;code class=&quot;highlighter-rouge&quot;&gt;ps -aux&lt;/code&gt;会提示警告信息。使用&lt;code class=&quot;highlighter-rouge&quot;&gt;man ps&lt;/code&gt;可以查看文档描述，但是在使用过程中不必纠结于二者的区别。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ps -le&lt;/code&gt;：查看系统中的所有进程，使用Linux标准格式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/20B6CDA5-610D-4F73-96C4-BD0444518951.png&quot; alt=&quot;20B6CDA5-610D-4F73-96C4-BD0444518951&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;字段解释&quot;&gt;字段解释：&lt;/h4&gt;
+
+&lt;p&gt;在实际使用过程中，我们没有必要对ps命令输出的所有进程都认识，应该关注的是每一列输出信息代表的含义是什么。下面以&lt;code class=&quot;highlighter-rouge&quot;&gt;ps aux&lt;/code&gt;为例，讲解对应列的含义：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;USER：产生该进程的用户。&lt;/li&gt;
+  &lt;li&gt;PID：进程的ID。&lt;/li&gt;
+  &lt;li&gt;％CPU：该进程占用的CPU资源百分比。&lt;/li&gt;
+  &lt;li&gt;％MEM：该进程占用物理内存百分比。&lt;/li&gt;
+  &lt;li&gt;VSZ：该进程占用虚拟内存的大小，单位KB。&lt;/li&gt;
+  &lt;li&gt;RSS：该进程占用的实际物理内存大小，单位KB。&lt;/li&gt;
+  &lt;li&gt;TTY：该进程是在哪个终端运行的，其中tty1-tty7代表本地控制终端，tty1-tty6为字符终端，tty7为图形终端。pts／0-255代表虚拟终端。&lt;/li&gt;
+  &lt;li&gt;STAT：进程状态。常见状态有：
+    &lt;ul&gt;
+      &lt;li&gt;R：运行&lt;/li&gt;
+      &lt;li&gt;S（大写）：睡眠&lt;/li&gt;
+      &lt;li&gt;T：停止状态&lt;/li&gt;
+      &lt;li&gt;s（小写）：包含子进程&lt;/li&gt;
+      &lt;li&gt;＋：后台进程&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;START：该进程的启动时间。&lt;/li&gt;
+  &lt;li&gt;TIME：该进程占用CPU的运算时间。&lt;/li&gt;
+  &lt;li&gt;COMMAND：进程名&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;(注：PID等于1的进程 /sbin/init 是系统的启动进程，是系统中所有进程的父进程)&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;3pstree命令查看进程树&quot;&gt;3.pstree命令查看进程树&lt;/h2&gt;
+
+&lt;h4 id=&quot;命令选项-1&quot;&gt;命令选项：&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-p：显示进程的PID&lt;/li&gt;
+  &lt;li&gt;-u：显示进程的所属用户&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/B08615C7-6B4F-476A-947C-7A2A9BF087D5.png&quot; alt=&quot;B08615C7-6B4F-476A-947C-7A2A9BF087D5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;直接使用pstree命令，输出的是系统的进程树，其中相同名称的进程使用数字＊进程名的形式输出，使用&lt;code class=&quot;highlighter-rouge&quot;&gt;pstree -p&lt;/code&gt;命令可以将不同PID的进程展开：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/F9B0226B-FD4A-49A6-9584-A0B7B871BBA4.png&quot; alt=&quot;F9B0226B-FD4A-49A6-9584-A0B7B871BBA4&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;4top命令产看进程状态&quot;&gt;4.top命令产看进程状态&lt;/h2&gt;
+
+&lt;h5 id=&quot;命令选项-2&quot;&gt;命令选项：&lt;/h5&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-d 秒数：指定top命令每隔几秒更新，默认是3秒。&lt;/li&gt;
+  &lt;li&gt;-b：使用批处理模式输出，一般和-n合用。&lt;/li&gt;
+  &lt;li&gt;-n 次数：指定top命令执行的次数。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;top命令交互模式下的命令&quot;&gt;top命令交互模式下的命令：&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;？或h：显示交互模式的帮助文档。&lt;/li&gt;
+  &lt;li&gt;p：以CPU使用率排序，默认方式。&lt;/li&gt;
+  &lt;li&gt;M：以内存使用率排序。　　　&lt;/li&gt;
+  &lt;li&gt;N：以PID排序&lt;/li&gt;
+  &lt;li&gt;q：退出top命令交互模式&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;一般的，在终端输入top命令即进入了top交互模式：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/E3D38BB6-F13D-43D5-9EBD-805650205C93.png&quot; alt=&quot;E3D38BB6-F13D-43D5-9EBD-805650205C93&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;此时可以键入交互模式下的命令对输出进行不同的排序。&lt;/p&gt;
+
+&lt;h4 id=&quot;字段解释-1&quot;&gt;字段解释：&lt;/h4&gt;
+
+&lt;p&gt;在top命令下，我们重点关注最上面五行系统信息：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;11:31:20 ：系统当前时间，默认每3秒更新。&lt;/li&gt;
+  &lt;li&gt;up 113days，16:20　:系统已运行113天16个小时20分钟。&lt;/li&gt;
+  &lt;li&gt;3 users：当前登录了3个用户。&lt;/li&gt;
+  &lt;li&gt;load average：0.00，0.00，0.00 ：系统在之前1分钟，5分钟，15分钟的平均负载，一般认为对于每一个CPU核心，该数值小于1时系统负载较小，大于1时系统负载较大。&lt;/li&gt;
+  &lt;li&gt;Tasks：112total ：系统中的进程总数。&lt;/li&gt;
+  &lt;li&gt;2 running：正在运行的进程数。&lt;/li&gt;
+  &lt;li&gt;110 sleeping：睡眠进程数。&lt;/li&gt;
+  &lt;li&gt;0 stopped：正在停止的进程。&lt;/li&gt;
+  &lt;li&gt;0 zombie：僵尸进程。&lt;/li&gt;
+  &lt;li&gt;Cpu(s):0.3%us ：用户模式占用的cpu百分比。&lt;/li&gt;
+  &lt;li&gt;0.3%sy：系统模式占用的cpu百分比。&lt;/li&gt;
+  &lt;li&gt;0.0%sy：改变过优先级的用户进程占用百分比。&lt;/li&gt;
+  &lt;li&gt;99.3%id：空闲cpu的百分比。&lt;/li&gt;
+  &lt;li&gt;0.0%wa：等待输入／输出的进程占用cpu百分比。&lt;/li&gt;
+  &lt;li&gt;0.0%hi：硬中断请求服务占用cpu百分比。&lt;/li&gt;
+  &lt;li&gt;0.0%si：软中断请求服务占用cpu百分比。&lt;/li&gt;
+  &lt;li&gt;0.0%st：虚拟时间百分比。&lt;/li&gt;
+  &lt;li&gt;第四行为物理内存的信息，第五行为交换分区的信息，单位为kb，注意buffers是用作缓冲的内存大小，cached是用作缓存的内存大小。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;5kill命令终止进程&quot;&gt;5.kill命令终止进程&lt;/h2&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;kill -l&lt;/code&gt;（字母l）：查看所有信号&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/856E8317-3F5B-4032-BC73-E98951575731.png&quot; alt=&quot;856E8317-3F5B-4032-BC73-E98951575731&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;其中，重点关注kill -1（数字1）和kill -9。kill -1用于重启进程（而不是杀死），不影响现有进程的使用，一般在修改某种服务的配置文件之后使用该命令；kill -9用于强制终止进程，基本格式为 kill ［数字］进程PID。&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;killall&lt;/code&gt;命令：基本格式为killall ［选项］［信号］进程名。killall的选项有-i和-I，-i用于交互，询问是否杀死某个进程，-I用于忽略进程名的大小写。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/Users/liuzhen/Library/Containers/com.tencent.qq/Data/Library/Application Support/QQ/Users/1475789252/QQ/Temp.db/90318CF6-D33A-45EE-9412-5CD31357DB94.png&quot; alt=&quot;90318CF6-D33A-45EE-9412-5CD31357DB94&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;pkill&lt;/code&gt;命令：基本格式为pkill ［选项］［信号］进程名　。选项-t 终端号 用于按照终端号踢出用户。&lt;/p&gt;
+
+&lt;p&gt;首先使用w命令查看当前用户，可以见到共有四个远程用户终端，当前正在使用的终端为pts／4，因为其正在使用w命令。接着用pkill命令踢出pts／0，再次用w命令查看，可见此时pts／0用户已被踢出。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/BABF0CAB-11A3-4363-969D-69605007223B.png&quot; alt=&quot;C5B6DF39-F2BA-401F-9E21-2483FB7AE2B0&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;6优先级修改命令nice&quot;&gt;6.优先级修改命令nice&lt;/h2&gt;
+
+&lt;p&gt;基本格式为&lt;code class=&quot;highlighter-rouge&quot;&gt;nice -n 数值 进程名&lt;/code&gt;。在前面&lt;code class=&quot;highlighter-rouge&quot;&gt;ps -le&lt;/code&gt;命令中，表示优先级的列有PRI（priority）和NI（nice），真正的优先级由PRI决定，数值越小优先级越高。用户只能修改NI的值，修改后的PRI＝原PRI＋NI。下图为修改apache服务进程的优先级示例。由于优先级对日常使用无很大影响，此处不加赘述，有兴趣的可以自行查阅相关资料。&lt;img src=&quot;https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-08-15/7C609F1D-2665-4C84-A981-E8183011CA33.png&quot; alt=&quot;7C609F1D-2665-4C84-A981-E8183011CA33&quot; /&gt;&lt;/p&gt;
+
+</description>
+        <pubDate>Tue, 15 Aug 2017 10:27:30 +0800</pubDate>
+        <link>http://localhost:4000/2017/08/Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017/08/Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E8%AF%A6%E8%A7%A3/</guid>
+        
+        <category>Linux</category>
+        
+        <category>进程</category>
+        
+        
+      </item>
     
       <item>
         <title>Hello World - Vno</title>
