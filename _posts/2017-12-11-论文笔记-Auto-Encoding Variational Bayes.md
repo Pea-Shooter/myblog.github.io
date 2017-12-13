@@ -44,13 +44,13 @@ Link:https://arxiv.org/abs/1312.6114
 
   其中$\mu_z(x)$,$\sigma_{z}(x)$是Encoder的输出。并且此处假设z的先验分布是N(0,1)。
 
-  https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-11/encoder.jpeg))
+  ![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/encoder.jpeg))
 
   ​
 
 * Decoder：已知隐变量z，计算样本x的条件似然概率$p_{\theta}(x|z)$，$\theta$是参数。
 
-  https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-11/vae1.png)
+  ![figure2](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/figure1.png)
 
 * 整个网络最终的优化目标是确保Encoder中的后验概率密度函数逼近Decoder中的后验概率密度函数，目标函数为：
 
@@ -58,7 +58,7 @@ Link:https://arxiv.org/abs/1312.6114
 
   网络结构图：
 
-  https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-11/VAE.png
+  ![figure3](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/VAE.png)
 
   > 注：网络结构图[来源](http://zhouchang.info/blog/2016-04-11/VAE.html)
 
