@@ -18,7 +18,7 @@ plt.ylabel('some numbers')
 plt.show()
 ```
 
-![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_1.png)
+![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_1.png)
 
 如上图所示，当给`plot()`仅提供一个列表或者数组是，默认是y轴的值，同时会自动产生x值，由于python的范围是从0开始，因此`y=[1,2,3,4]`时，`x=[0,1,2,3]`。
 
@@ -32,7 +32,7 @@ plt.axis([0,6,0,20])
 plt.show()
 ```
 
-![figure2](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_2.png)
+![figure2](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_2.png)
 
 `axis(xmin,xmax,ymin,ymax)`确定轴的范围，分别是x轴和y轴的最小最大值。
 
@@ -47,7 +47,7 @@ plt.plot(t,t,'r--',t,t**2,'bs',t,t**3,'g^')
 plt.show()
 ```
 
-![figure3](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_3.png)
+![figure3](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_3.png)
 
 ## 控制线条属性
 
@@ -78,7 +78,7 @@ plt.setp(lines, 'color', 'r', 'linewidth', 2.0)
 
 线条的可设置属性可以通过将line或者lines作为参数传给`setp()`获得:
 
-![figure4](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_4.png)
+![figure4](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_4.png)
 
 ## Multiple figures and axes
 
@@ -103,7 +103,7 @@ plt.plot(t2,np.cos(2*np.pi*t2),'r--')
 plt.show()
 ```
 
-![figure5](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_5.png)
+![figure5](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_5.png)
 
 `figure()`是可选的，默认会创建`figure（1）`，同样`subplot(111)`也会默认创建如果不显示说明。`figure(numrows,numcols,fignum)`的三个参数分别表示一个图（figure）上子图的行、列和当前子图的序号。因此一个图上共有`numrows*numcols`个子图，当`numrows*numcols<10`时，可以简写成`figure(211)`这样的形式。一个`figure`可以有任意多个`subplot`，也可以创建多个 `figure`。
 
@@ -151,7 +151,7 @@ plt.grid(True)
 plt.show()
 ```
 
-![figure6](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_6.png)
+![figure6](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_6.png)
 
 所有的`text()`命令返回一个`matplotlib.text.Text`实例，可以通过关键字参数或者`setp()`为其定制属性：
 
@@ -185,7 +185,7 @@ plt.ylim(-2,2)
 plt.show()
 ```
 
-![figure7](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_7.png)
+![figure7](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_7.png)
 
 ## 对数和其它非线性轴
 
@@ -247,4 +247,4 @@ plt.subplots_adjust(top=0.92, bottom=0.08, left=0.10, right=0.95, hspace=0.25,
 plt.show()
 ```
 
-![figure8](https://github.com/Pea-Shooter/Pea-Shooter.github.io/blob/master/images/blog/2017-12-13/Figure_8.png)
+![figure8](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-13/Figure_8.png)
