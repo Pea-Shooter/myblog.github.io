@@ -40,6 +40,7 @@ tags: python
    c.NotebookApp.password = u'sha1:sdhf...the copied string'
    c.NotebookApp.open_browser = False # Disable automatic open browser
    c.NotebookApp.port =8888 # assign a port
+   c.NotebookApp.notebook_dir = u'/Users/liuzhen/jupyter' # Set default directory
    ```
 
 5. Start your jupyter notebook
