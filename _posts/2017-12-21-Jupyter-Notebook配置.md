@@ -9,7 +9,7 @@ tags: python
 
 ## Remote server configuration
 
-1. Install jupiter in your server
+1. Install jupyter in your server
 
    ```shell
    pip3 install jupyter 
