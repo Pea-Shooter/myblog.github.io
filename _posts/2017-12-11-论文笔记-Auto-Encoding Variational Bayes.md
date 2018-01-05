@@ -27,9 +27,11 @@ Link:https://arxiv.org/abs/1312.6114
 
 问题场景
 
-假设有N个独立同分布的连续或者离散的数据集样本 $X=\{x^{(i)}\}_{i=1}^{N}$ ，假设数据由某些随机过程产生并且包含一个未观测到的连续潜在变量。这个过程包含两个步骤：（1） $z^{i}$ 由先验分布$p_{\theta^*}z$产生；
+假设有N个独立同分布的连续或者离散的数据集样本 $X=\{x^{(i)}\}_{i=1}^{N}$ ，假设数据由某些随机过程产生并且包含一个未观测到的连续潜在变量。这个过程包含两个步骤:
 
-（2）$x^i$由调节分布$p_{\theta^*}(x|z)$。
+（1） $z^{i}$ 由先验分布$p_{\theta^*}z$产生
+
+（2）$x^i$由条件分布$p_{\theta^*}(x|z)$
 
 假设先验$p_{\theta^*}z$和极大似然$p_{\theta^*}(x|z)$来自分布$p_\theta z$和$p_{\theta}(x|z)$的参数簇，但是这个过程我们是无法观测的，真实参数$\theta^*$和隐变量$z^{(i)}$都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法：
 
@@ -43,15 +45,13 @@ Link:https://arxiv.org/abs/1312.6114
 
 下面我们来具体看看VAE：
 
-(1) Encoder：引入隐变量z，利用编码网络拟合参数化的后验$q_{\phi}(z|x)$,输出为z的条件分布:
+(1) Encoder：引入隐变量z，利用编码网络拟合参数化的后验 $q_{\phi}(z|x)$ ,输出为z的条件分布:
 
 $$q_{\phi}(z|x)=N(z;\mu_{z}(x),\sigma_{z}(x))$$
 
 其中$\mu_z(x)$,$\sigma_{z}(x)$是Encoder的输出。并且此处假设z的先验分布是N(0,1)。
 
-![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/encoder.jpeg))
-
-
+![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/encoder.jpeg)
 
 (2) Decoder：已知隐变量z，计算样本x的条件似然概率$p_{\theta}(x|z)$，$\theta$是参数。
 
