@@ -53,7 +53,7 @@ $$q_{\phi}(z\vert x)=N(z;\mu_{z}(x),\sigma_{z}(x))$$
 
 ![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/encoder.jpeg)
 
-(2) Decoder：已知隐变量z，计算样本x的条件似然概率$p_{\theta}(x\mid z)$，$\theta$是参数。
+(2) Decoder：已知隐变量z，计算样本x的条件似然概率$p_{\theta}(x\vert z)$，$\theta$是参数。
 
 ![figure2](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2017-12-11/figure1.png)
 
