@@ -33,7 +33,7 @@ Authors:Diederik P Kingma,Max Welling
 
 (2) $x^i$由条件分布$p_{\theta^*} (x\vert z)$
 
-假设先验 $p_{\theta^{*}}z$ 和极大似然 $p_{\theta^{*}}(x\vert z)$ 来自分布 $p_\theta z$ 和 $p_{\theta}(x\vert z)$ 的参数簇，但是这个过程我们是无法观测的，真实参数 $\theta^*$ 和隐变量 $z^{(i)}$ 都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法:
+假设先验 $p_{\theta^{\star}}z$ 和极大似然 $p_{\theta^{\star}}(x\vert z)$ 来自分布 $p_\theta z$ 和 $p_{\theta}(x\vert z)$ 的参数簇，但是这个过程我们是无法观测的，真实参数 $\theta^*$ 和隐变量 $z^{(i)}$ 都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法:
 
 (1)无法计算有非常棘手的真实后验密度$p_{\theta}(z\vert x)=p_{\theta}(x\vert z)p_{\theta}(z)/p_{\theta}(x)$的边缘分布的极大似然估计积分$\int p_{\theta}(z)p_{\theta}(x\vert z)dz$；
 
