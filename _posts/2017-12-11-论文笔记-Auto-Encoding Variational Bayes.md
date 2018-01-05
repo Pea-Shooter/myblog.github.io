@@ -25,7 +25,7 @@ Authors:Diederik P Kingma,Max Welling
 
 ## Method
 
-问题场景
+**问题场景**
 
 假设有N个独立同分布的连续或者离散的数据集样本 $X=\{x^{(i)}\}_{i=1}^{N}$ ，假设数据由某些随机过程产生并且包含一个未观测到的连续潜在变量。这个过程包含两个步骤
 
@@ -33,13 +33,13 @@ Authors:Diederik P Kingma,Max Welling
 
 (2) $x^i$由条件分布$p_{\theta^*} (x\vert z)$
 
-假设先验 $p_{\theta^{\star}}z$ 和极大似然 $p_{\theta^{\star}}(x\vert z)$ 来自分布 $p_\theta z$ 和 $p_{\theta}(x\vert z)$ 的参数簇，但是这个过程我们是无法观测的，真实参数 $\theta^*$ 和隐变量 $z^{(i)}$ 都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法:
+假设先验 $p_{\theta^{\star}}z​$ 和极大似然 $p_{\theta^{\star}}(x\vert z)​$ 来自分布 $p_\theta z​$ 和 $p_{\theta}(x\vert z)​$ 的参数簇，但是这个过程我们是无法观测的，真实参数 $\theta^*​$ 和隐变量 $z^{(i)}​$ 都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法:
 
 (1)无法计算有非常棘手的真实后验密度$p_{\theta}(z\vert x)=p_{\theta}(x\vert z)p_{\theta}(z)/p_{\theta}(x)$的边缘分布的极大似然估计积分$\int p_{\theta}(z)p_{\theta}(x\vert z)dz$；
 
 (2)对于一个大数据集，批量优化代价很大，minibatch或者单个数据点采样又非常慢。
 
-解决方案
+**解决方案**
 
 文章针对上述场景提出了变分下界、SGVB估计器、AEVB算法和再参数化trick，然后作为example提出了Variational Auto-Encoder（VAE），具体的推导与证明详见文章，由于比较繁琐与复杂，在此不做描述。
 
