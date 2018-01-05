@@ -33,8 +33,9 @@ Link:https://arxiv.org/abs/1312.6114
 
 假设先验$p_{\theta^*}z$和极大似然$p_{\theta^*}(x|z)$来自分布$p_\theta z$和$p_{\theta}(x|z)$的参数簇，但是这个过程我们是无法观测的，真实参数$\theta^*$和隐变量$z^{(i)}$都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法：
 
-1. 无法计算有非常棘手的真实后验密度$p_{\theta}(z|x)=p_{\theta}(x|z)p_{\theta}(z)/p_{\theta}(x)$的边缘分布的极大似然估计积分$\int p_{\theta}(z)p_{\theta}(x|z)dz$；
-2. 对于一个大数据集，批量优化代价很大，minibatch或者单个数据点采样又非常慢。
+(1) 无法计算有非常棘手的真实后验密度$p_{\theta}(z|x)=p_{\theta}(x|z)p_{\theta}(z)/p_{\theta}(x)$的边缘分布的极大似然估计积分$\int p_{\theta}(z)p_{\theta}(x|z)dz$；
+
+(2) 对于一个大数据集，批量优化代价很大，minibatch或者单个数据点采样又非常慢。
 
 解决方案
 
