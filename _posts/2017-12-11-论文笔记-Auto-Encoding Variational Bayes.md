@@ -31,11 +31,11 @@ Link:https://arxiv.org/abs/1312.6114
 
 (1) $z^{i}$ 由先验分布$p_{\theta^*}z$产生
 
-(2) $x^i$由条件分布$p_{\theta^*} (x\mid z)$
+(2) $x^i$由条件分布$p_{\theta^*} (x\vert z)$
 
-假设先验$p_{\theta^*}z$和极大似然$p_{\theta^*}(x\mid z)$来自分布$p_\theta z$和$p_{\theta}(x\mid z)$的参数簇，但是这个过程我们是无法观测的，真实参数$\theta^*$和隐变量$z^{(i)}$都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法:
+假设先验 $p_{\theta^*}z$ 和极大似然 $p_{\theta^*}(x\vert z)$ 来自分布 $p_\theta z$ 和 $p_{\theta}(x\vert z)$ 的参数簇，但是这个过程我们是无法观测的，真实参数 $\theta^*$ 和隐变量 $z^{(i)}$ 都是未知的。这里不对边缘或者后验概率分布做一般化假设，而是提出一种针对如下两个问题通用的算法:
 
-(1)无法计算有非常棘手的真实后验密度$p_{\theta}(z\mid x)=p_{\theta}(x\mid z)p_{\theta}(z)/p_{\theta}(x)$的边缘分布的极大似然估计积分$\int p_{\theta}(z)p_{\theta}(x\mid z)dz$；
+(1)无法计算有非常棘手的真实后验密度$p_{\theta}(z\vert x)=p_{\theta}(x\vert z)p_{\theta}(z)/p_{\theta}(x)$的边缘分布的极大似然估计积分$\int p_{\theta}(z)p_{\theta}(x\vert z)dz$；
 
 (2)对于一个大数据集，批量优化代价很大，minibatch或者单个数据点采样又非常慢。
 
@@ -45,9 +45,9 @@ Link:https://arxiv.org/abs/1312.6114
 
 下面我们来具体看看VAE：
 
-(1)Encoder：引入隐变量z，利用编码网络拟合参数化的后验 $q_{\phi}(z\mid x)$ ,输出为z的条件分布:
+(1)Encoder：引入隐变量z，利用编码网络拟合参数化的后验 $q_{\phi}(z\vert x)$ ,输出为z的条件分布:
 
-$$q_{\phi}(z|x)=N(z;\mu_{z}(x),\sigma_{z}(x))$$
+$$q_{\phi}(z\vert x)=N(z;\mu_{z}(x),\sigma_{z}(x))$$
 
 其中$\mu_z(x)$,$\sigma_{z}(x)$是Encoder的输出。并且此处假设z的先验分布是N(0,1)。
 
@@ -59,7 +59,7 @@ $$q_{\phi}(z|x)=N(z;\mu_{z}(x),\sigma_{z}(x))$$
 
 (3) 整个网络最终的优化目标是确保Encoder中的后验概率密度函数逼近Decoder中的后验概率密度函数，目标函数为：
 
-$$\mathcal{L}(\theta,\phi,x)=-D_{KL}(q_{\phi}(z\mid x)||p_{\theta}(z))+\mathbb{E}_{q_{\phi}(z\mid x)}[log\,p_{\theta}(x\mid z)]$$
+$$\mathcal{L}(\theta,\phi,x)=-D_{KL}(q_{\phi}(z\vert x)||p_{\theta}(z))+\mathbb{E}_{q_{\phi}(z\mid x)}[log\,p_{\theta}(x\vert z)]$$
 
 网络结构图：
 
