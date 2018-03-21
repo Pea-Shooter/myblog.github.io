@@ -15,7 +15,7 @@ $$\Theta=\mathop{argmax}\limits_{\Theta}\frac{1}{N} \mathop{l}(x_i,\Theta)$$
 
 其中，$x_{1…N}$为训练集。在训练时，每次使用一个大小为m的mini-batch $x_{1…m}$，该mini-batch通过如下计算来近似loss的梯度：
 
-$\frac{1}{m} \frac{\partial l(x_i,\Theta)}{\partial \Theta}$.
+$$\frac{1}{m} \frac{\partial l(x_i,\Theta)}{\partial \Theta}$$
 
 使用mini-batch通常有以下几个好处：
 
@@ -30,15 +30,15 @@ $$l = F_2(F_1(u,\Theta_1),\Theta_2)$$
 
 $F_1,F_2$为任意变换，$\Theta_1,\Theta_2$是最小化loss需要学习的网络参数。这时学习$\Theta_2$可以看作将输入$x=F_1(u,\Theta_1)$送进一个子网络：
 
-$l=F_2(x,\Theta_2)$
+$$l=F_2(x,\Theta_2)$$
 
 例如我们用如下梯度下降策略更新网络权值：
 
-$$\Theta_2 \leftarrow \Theta_2- \frac{\alpha}{m} \Sigma _{i=1}^{m} \frac{\partial{F_2(x_i,\Theta_2)}}{\partial{\Theta_2}}​$$
+$$\Theta_2 \leftarrow \Theta_2- \frac{\alpha}{m} \Sigma _{i=1}^{m} \frac{\partial{F_2(x_i,\Theta_2)}}{\partial{\Theta_2}}$$
 
 其中batch size为$m$，学习率为$\alpha$. 此时网络的训练可以看成在训练一个单独的$F_2$，其输入是$x$。这样，随着网络的训练，$x$可能陷入一个固定的分布，$\Theta_2$不需要再进行调整来补偿输入$x$的分布的变化。
 
-考虑一个使用Sigmoid激活函数的网络成$z = g(Wu+b)$，$u$是输入，$W$是权值矩阵，$g(x)=\frac{1}{1+exp(-x)}$。随着$|x|$增加，$g'(x)$趋于0，这意味着，除了$|x|$很小时，梯度很容易陷入非线性饱和区。这使得网络在深层很难收敛。
+考虑一个使用Sigmoid激活函数的网络成${z = g(Wu+b)}$，${u}$是输入，${W}$是权值矩阵，$g(x)=\frac{1}{1+exp(-x)}$。随着${|x|}$增加，${g'(x)}$趋于0，这意味着，除了${|x|}$很小时，梯度很容易陷入非线性饱和区。这使得网络在深层很难收敛。
 
 ### Basic Concepts
 
