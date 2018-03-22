@@ -46,9 +46,9 @@ $$\Theta_2 \leftarrow \Theta_2- \frac{\alpha}{m} \Sigma _{i=1}^{m} \frac{\partia
 
 独立同分布(i.i.d.) 是指数据样本**服从同一分布**并且**相互独立**。这并不是所有机器学习模型的前提假设条件，但是独立同分布的数据可以简化模型训练，并且预测能力更强。
 
-#### Weighting
+#### Whitening
 
-白化(Weighting)是数据预处理的一种手段，其目的是降低数据之间的冗余性，主要包括如下两个步骤：
+白化(Whitening)是数据预处理的一种手段，其目的是降低数据之间的冗余性，主要包括如下两个步骤：
 
 1. 去除(或降低)数据之间的相关性——>去相关性——>**独立**
 2. 使所有数据具有相同的均值和方差——>e.g. 均值0，方差1——>**同分布**
@@ -57,7 +57,7 @@ $$\Theta_2 \leftarrow \Theta_2- \frac{\alpha}{m} \Sigma _{i=1}^{m} \frac{\partia
 
 ICS是指网络节点输入的分布随着训练发生变化，因为每一层的参数更新都会导致上层的输入数据分布发生变化。[知乎回答](https://www.zhihu.com/question/38102762/answer/85238569)对此做了一个很有意思的解释：
 
-> 大家都知道在统计机器学习中的一个经典假设是“源空间（source domain）和目标空间（target domain）的数据分布（distribution）是一致的”。如果不一致，那么就出现了新的机器学习问题，如 transfer learning / domain adaptation 等。而 covariate shift 就是分布不一致假设之下的一个分支问题，它是指源空间和目标空间的条件概率是一致的，但是其边缘概率不同，即：对所有![x\in \mathcal{X}](https://www.zhihu.com/equation?tex=x%5Cin+%5Cmathcal%7BX%7D),
+> 大家都知道在统计机器学习中的一个经典假设是“源空间（source domain）和目标空间（target domain）的数据分布（distribution）是一致的”。如果不一致，那么就出现了新的机器学习问题，如 transfer learning / domain adaptation 等。而 covariate shift 就是分布不一致假设之下的一个分支问题，它是指源空间和目标空间的条件概率是一致的，但是其边缘概率不同，即：对所有$x\in \chi$
 >
 > $$P_s(Y|X=x)=P_t(Y|X=x)$$
 >
