@@ -11,7 +11,7 @@ tags: Machine learning  dropout  Deep learning
 
 随机梯度下降(SGD) 是一个训练深度神经网络的有效方法。通常其通过优化如下loss来优化网络的参数$\Theta$:
 
-$$\Theta=\mathop{argmax}\limits_{\Theta}\frac{1}{N} \mathop{l}(x_i,\Theta)$$
+$$\Theta=\mathop{argmin}\limits_{\Theta}\frac{1}{N} \mathop{l}(x_i,\Theta)$$
 
 其中，$x_{1…N}$为训练集。在训练时，每次使用一个大小为m的mini-batch $x_{1…m}$，该mini-batch通过如下计算来近似loss的梯度：
 
