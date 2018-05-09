@@ -13,7 +13,7 @@ tags: Machine learning  dropout  Deep learning
 
 $$\Theta=\mathop{argmin}\limits_{\Theta}\frac{1}{N} \mathop{l}(x_i,\Theta)$$
 
-其中，$x_{1…N}$为训练集。在训练时，每次使用一个大小为m的mini-batch $x_{1…m}$，该mini-batch通过如下计算来近似loss的梯度：
+其中，$x_{1…N}​$为训练集。在训练时，每次使用一个大小为m的mini-batch $x_{1…m}​$，该mini-batch通过如下计算来近似loss的梯度：
 
 $$\frac{1}{m} \frac{\partial l(x_i,\Theta)}{\partial \Theta}$$
 
@@ -115,12 +115,6 @@ $$h = f\big(g\cdot \frac{\hat{x}-\mu}{\sigma}+b\big)$$
 
 ### Reference
 
-1. [https://arxiv.org/pdf/1502.03167)](https://arxiv.org/pdf/1502.03167)
+1. [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167.pdf)
 2. [https://zhuanlan.zhihu.com/p/33173246](https://zhuanlan.zhihu.com/p/33173246)
-
-
-
-
-
-
 
