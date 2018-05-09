@@ -80,13 +80,21 @@ $$\mathbf v_j=\frac{\vert\vert \mathbf s_j\vert\vert^2}{1+\vert\vert  \mathbf s_
 
 ![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2018-05-10/8.png)
 
-结合上面的分析，我们可 以看出，三角形胶囊和矩形胶囊都非常赞同下一层输出船而不是房子，因为船能很好地解释它们的位姿（这里是角度）关系。因此，三角形和矩形都应将其输出只发送给船胶囊，使得船胶囊具有较大的激活值。这种机制被称为“routing by agreement”。这种机制有几个好处，首先，上层胶囊的输出只会发送给合适的下层胶囊，使得下层的这些胶囊获得更稳定的输入信号，能够更精确地确定下层特征的位姿关系。其次，routing by agreement机制给下层特征提供了一个可解释的层级关系，即我们识别出来的船是船，而不是房子。最后，routing by agreement机制有助于对重叠物体的检测和切分。
+结合上面的分析，我们可 以看出，三角形胶囊和矩形胶囊都非常赞同下一层输出船而不是房子，因为船能很好地解释它们的位姿（这里是角度）关系。因此，三角形和矩形都应将其输出只发送给船胶囊，使得船胶囊具有较大的激活值。这种机制被称为“**routing by agreement**”。这种机制有几个好处，首先，底层胶囊的输出只会发送给合适的高层胶囊，使得高层的这些胶囊获得更稳定的输入信号，能够更精确地确定高层特征的位姿关系。其次，routing by agreement机制给高层特征提供了一个可解释的层级关系，即我们识别出来的船是船，而不是房子。最后，routing by agreement机制有助于对重叠物体的检测和切分。
 
 ![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2018-05-10/9.png)
 
 ## 4. Dynamic routing between capsules
 
-首先介绍网络的参数设置，如下图所示，$\mathbf W$表示变换矩阵，在一开始先对上层的输出向量$\mathbf u$进行矩阵乘法，得到变换后的向量$\hat{\mathbf u}$，即$\hat{\mathbf u}_{j\vert i}=\mathbf W_{ij}\mathbf u_i$ ，其中下标i和j表示上一层的第`i`个胶囊和下一层的第`j`个胶囊。$c_{ij}$表示标量权重，低层胶囊i改变权重$c_{ij}$，输出向量$\hat{\mathbf u}_{j\vert i}$乘以该权重后，发送给高层胶囊`j`，作为高层胶囊的输入。由于$c_{ij}$定义了传给每个高层胶囊j的输出的概率分布，因此对每个底层胶囊i而言，所有权重$c_{ij}$的和为1。$\mathbf s_{ij}$表示对高层胶囊`j`的总输入向量，有底层胶囊的预测向量和对应权重的加权和表示：$\mathbf s_j=\Sigma_ic_{ij}\hat{\mathbf u}_{j\vert i}$。最后，胶囊j的输出$\mathbf v_j$对$\mathbf s_j$进行squashing操作。
+首先介绍网络的参数设置，如下图所示，$\mathbf W$表示变换矩阵，在一开始先对层底的输出向量$\mathbf u$进行矩阵乘法，得到变换后的向量$\hat{\mathbf u}$，即
+
+$$\hat{\mathbf u}_{j\vert i}=\mathbf W_{ij}\mathbf u_i$$ 
+
+其中下标i和j表示上一层的第`i`个胶囊和下一层的第`j`个胶囊。$c_{ij}$表示标量权重，低层胶囊`i`改变权重$c_{ij}$，输出向量$\hat{\mathbf u}_{j\vert i}$乘以该权重后，发送给高层胶囊`j`，作为高层胶囊的输入。由于$c_{ij}$定义了传给每个高层胶囊`j`的输出的概率分布，因此对每个底层胶囊`i`而言，所有权重$c_{ij}$的和为1。$\mathbf s_{ij}$表示对高层胶囊`j`的总输入向量，有底层胶囊的预测向量和对应权重的加权和表示：
+
+$$\mathbf s_j=\Sigma_ic_{ij}\hat{\mathbf u}_{j\vert i}$$
+
+最后，胶囊`j`的输出$\mathbf v_j$对$\mathbf s_j$进行squashing操作。
 
 ![figure1](https://github.com/Pea-Shooter/Pea-Shooter.github.io/raw/master/images/blog/2018-05-10/11.png)
 
@@ -98,7 +106,7 @@ $$\mathbf v_j=\frac{\vert\vert \mathbf s_j\vert\vert^2}{1+\vert\vert  \mathbf s_
 
 第2行的$b_{ij}$是一个临时变量，它的值会在迭代过程中更新，当整个算法运行完毕后，它的值计算一个softmax函数被保存到$c_{ij}$。在训练开始时，$b_{ij}$的值被初始化为零。
 
-第3行表明路由迭代r次。
+第3行表明路由迭代`r`次。
 
 第4行计算向量$\mathbf c_{i}$的值，也就是低层胶囊i的所有权重。这一计算将应用到所有低层胶囊上。Softmax确保所有权重$c_{ij}$均为非负数，且其总和等于一。由于所有$b_{ij}$的值初始化为零，所以第一次迭代后，所有系数$c_{ij}$的值相等。例如，如果我们有3个低层胶囊和2个高层胶囊，那么所有$c_{ij}$将等于0.5。算法初始化时，所有$c_{ij}$均相等，这意味着不确定性达到最大值：低层胶囊不知道它们的输出最适合哪个高层胶囊。当然，随着这一进程的重复，这些均匀分布将发生改变。
 
