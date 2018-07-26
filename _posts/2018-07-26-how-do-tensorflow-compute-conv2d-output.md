@@ -17,6 +17,8 @@ tags: tensorflow
 
   "SAME" tries to pad evenly left and right.
 
+
+
 ##2. How do they compute the output? 
 
 * For the `SAME` padding, the output height and width are computed as
@@ -56,6 +58,8 @@ tags: tensorflow
   out_width  = ceil(float(in_width - filter_width + 1) / float(strides[2]))
   ```
 
+
+
 ##3. Parameter interpretation of conv2d
 
 ```p
@@ -77,6 +81,8 @@ tf.nn.conv2d(
 * data_format : An optional `string` from: `"NHWC", "NCHW"`. Defaults to `"NHWC"`. Specify the data format of the input and output data. With the default format "NHWC", the data is stored in the order of: [batch, height, width, channels]. Alternatively, the format could be "NCHW", the data storage order of: [batch, channels, height, width].
 
 The `in_channels of filter` = `in_channels of input` , `out_channels of filter` = `num of filters`. By default, strides[0]=strides[3]=1.
+
+
 
 ## 4. Example
 
