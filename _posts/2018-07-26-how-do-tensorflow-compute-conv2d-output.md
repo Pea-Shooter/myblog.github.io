@@ -19,7 +19,7 @@ tags: tensorflow
 
 
 
-##2. How do they compute the output? 
+## 2. How do they compute the output?
 
 * For the `SAME` padding, the output height and width are computed as
 
@@ -60,7 +60,7 @@ tags: tensorflow
 
 
 
-##3. Parameter interpretation of conv2d
+## 3. Parameter interpretation of conv2d
 
 ```p
 tf.nn.conv2d(
