@@ -48,7 +48,7 @@ $ sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g
 $ echo "export VISIBLE=now" >> /etc/profile
 ```
 
-restart ssh service toactivate the configuration above.
+restart ssh service to activate the configuration above.
 
 ```bash
 $ service ssh restart
